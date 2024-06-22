@@ -1,0 +1,53 @@
+pex_binary(
+    name="bin",
+    dependencies=[
+        ":lib",
+        ":wrapped_downloader_output"
+    ],
+    entry_point="main.py"
+)
+
+python_sources(
+    name="lib",
+    dependencies=[
+        ":local-file",
+        ":downloaded-image",
+    ],
+    sources=["**/*.py"],
+)
+
+experimental_wrap_as_resources(
+    name="wrapped_downloader_output",
+    inputs=[":run-downloader"],
+)
+
+shell_command(
+    name="run-downloader",
+    command="./downloader.sh",
+    execution_dependencies=[":scripts", ":manifest"],
+    output_files=["dilbert-rng.gif"],
+    tools=["curl", "head"],
+)
+
+shell_sources(
+    name="scripts",
+)
+
+file(
+    name="manifest",
+    source="manifest.txt",
+)
+
+resource(
+    name="local-file",
+    source="local-file.txt",
+)
+
+resource(
+    name="downloaded-image",
+    source=http_source(
+       url="https://sureshjoshi.com/images/2021/01/malboge-code.jpg",
+        len=155928,
+        sha256="4efbf7b9a6420f257f95c04bc7d3c598f65986e5a92aa3bb18f7e3871b89108b",
+    ),
+)

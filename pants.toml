@@ -1,0 +1,29 @@
+[GLOBAL]
+pants_version = "2.21.0"
+pantsd = true 
+build_patterns = ["BUILD.pants", "BUILD"]
+pythonpath = ["pants-plugins"]
+print_stacktrace = true
+
+backend_packages = [
+    "pants.backend.python",
+    "pants.backend.experimental.python.lint.ruff",
+    "pants.backend.shell",
+    "pants.backend.shell.lint.shellcheck",
+    "pants.backend.shell.lint.shfmt",
+]
+
+[python]
+enable_resolves = true
+interpreter_constraints = ["==3.11.*"]
+tailor_pex_binary_targets = false
+
+[python.resolves]
+python-default = "build-support/lockfiles/python-default.lock"
+
+[shfmt]
+# See https://github.com/mvdan/sh/blob/master/cmd/shfmt/shfmt.1.scd#printer-flags.
+args = ["-i 4", "-ci", "-sr"]
+
+[anonymous-telemetry]
+enabled = false
