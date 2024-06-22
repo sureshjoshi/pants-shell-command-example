@@ -25,7 +25,7 @@ shell_command(
     name="run-downloader",
     command="./downloader.sh",
     execution_dependencies=[":scripts", ":manifest"],
-    output_files=["dilbert-rng.gif"],
+    output_files=["dilbert-rng.gif"], # This must match your expected file(s) (or use output_directory)
     tools=["curl", "head"],
 )
 
